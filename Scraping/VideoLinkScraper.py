@@ -34,7 +34,7 @@ class VideoLinkScraper:
         playlist = Playlist(row['link'])
         for video_link in playlist.video_urls:
             video = YouTube(video_link)
-            video_links.append([video.publish_date, video_link, video.title, video.length, False])
+            video_links.append([video.publish_date, video_link, video.title.replace(",", ""), video.length, -1])
         
         return video_links
     
