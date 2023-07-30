@@ -32,14 +32,14 @@ class VideoLinkScraper:
     def get_videos_from_link(self, row):
         video_links = []
         playlist = Playlist(row['link'])
-        for video_link in tqdm(playlist.video_urls):
+        for video_link in playlist.video_urls:
             video = YouTube(video_link)
             video_links.append([video.publish_date, video_link, video.title, video.length])
         
         return video_links
     
     def save_video_links(self, df_video_links):
-        df_video_links.to_csv('Scraping/video_links.csv', index=False)
+        df_video_links.to_csv('Scraping/video_links.csv')
 
 if __name__ == '__main__':
     scraper = VideoLinkScraper()
