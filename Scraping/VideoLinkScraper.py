@@ -25,7 +25,7 @@ class VideoLinkScraper:
             for content in links:
                 video_links.append(content)
      
-        df_video_links = pd.DataFrame(video_links, columns=['date', 'link', 'title', "length"])
+        df_video_links = pd.DataFrame(video_links, columns=['date', 'link', 'title', "length", "transcribed"])
         
         return df_video_links
     
@@ -34,7 +34,7 @@ class VideoLinkScraper:
         playlist = Playlist(row['link'])
         for video_link in playlist.video_urls:
             video = YouTube(video_link)
-            video_links.append([video.publish_date, video_link, video.title, video.length])
+            video_links.append([video.publish_date, video_link, video.title, video.length, False])
         
         return video_links
     
