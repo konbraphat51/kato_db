@@ -14,7 +14,7 @@ class VideoLinkScraper:
     
     '''list_links.csvからプレイリストのリンクを取得する。'''
     def get_lists(self):
-        return pd.read_csv('Scraping/list_links.csv')
+        return pd.read_csv('Data/list_links.csv')
     
     '''プレイリストのリンクから動画のリンクを取得する。'''
     def get_videos_from_links(self, df_list_links):
@@ -39,7 +39,7 @@ class VideoLinkScraper:
         return video_links
     
     def save_video_links(self, df_video_links):
-        df_video_links.to_csv('Scraping/video_links.csv')
+        df_video_links.to_csv('Data/video_links.csv')
 
 if __name__ == '__main__':
     scraper = VideoLinkScraper()
