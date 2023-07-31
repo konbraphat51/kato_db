@@ -26,7 +26,7 @@ class VideoLinkScraper:
     '''現時点での取得済みリンクのデータフレームを取得する。なければ空'''
     def get_current_videos(self):
         if os.path.isfile("Data/video_links.csv"):
-            return pd.read_csv("Data/video_links.csv")
+            return pd.read_csv("Data/video_links.csv", index_col=0)
         else:
             return pd.DataFrame(columns=['date', 'link', 'title', "length", "transcribed"])
     
