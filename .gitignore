@@ -1,3 +1,4 @@
 ffmpeg.exe
 audio.mp4
-Data/Transition_raw/*
+Data/*
+-Data/video_links.csv
