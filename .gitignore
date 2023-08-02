@@ -2,3 +2,6 @@ ffmpeg.exe
 audio.mp4
 Data/*
 -Data/list_links.csv
+Scraping/nico_pass.txt
+test.ipynb
+test.py
