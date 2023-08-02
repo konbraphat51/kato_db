@@ -5,6 +5,7 @@ from joblib import Parallel, delayed
 import re
 from datetime import datetime
 import os
+from .. import Consts
 
 '''
 list_links.csvからスクレイピングするべき動画のリンクの一覧video_links.csvを作成する。
@@ -21,12 +22,12 @@ class VideoLinkScraper:
     
     '''list_links.csvからプレイリストのリンクを取得する。'''
     def get_lists(self):
-        return pd.read_csv('Data/list_links.csv')
+        return pd.read_csv(Consts.list_links_file)
     
     '''現時点での取得済みリンクのデータフレームを取得する。なければ空'''
     def get_current_videos(self):
-        if os.path.isfile("Data/video_links.csv"):
-            return pd.read_csv("Data/video_links.csv", index_col=0)
+        if os.path.isfile(Consts.video_links_file):
+            return pd.read_csv(Consts.video_links_file, index_col=0)
         else:
             return pd.DataFrame(columns=['date', 'link', 'title', "length", "transcribed"])
     
@@ -117,7 +118,7 @@ class VideoLinkScraper:
         return date.strftime("%Y/%m/%d")
     
     def save_video_links(self, df_video_links):
-        df_video_links.to_csv('Data/video_links.csv')
+        df_video_links.to_csv(Consts.video_links_file)
 
 if __name__ == '__main__':
     scraper = VideoLinkScraper()
