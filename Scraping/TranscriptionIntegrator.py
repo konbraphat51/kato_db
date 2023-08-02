@@ -1,13 +1,14 @@
 import pandas as pd
 import os
 import re
+from .. import Consts
 
 '''
 生成された書き起こし進捗をvideo_links.csvに反映する
 '''
 class TranscriptionIntegrator:
     def run(self):
-        df_video_links = pd.read_csv("Data/video_links.csv", index_col=0)
+        df_video_links = pd.read_csv(Consts.video_links_file, index_col=0)
         
         #いったん全て-1（未実施）にする
         df_video_links["transcribed"] = -1
@@ -18,14 +19,14 @@ class TranscriptionIntegrator:
             if model > df_video_links.at[index, "transcribed"]:
                 df_video_links.at[index, "transcribed"] = model
                 
-        df_video_links.to_csv("Data/video_links.csv")
+        df_video_links.to_csv(Consts.video_links_file)
 
     '''
     (書き起こされたファイルのインデックス, モデル番号)のリストを返す
     '''    
     def get_transcribed(self):
         file_names = []
-        folder_path = "Data/Transcription_raw"
+        folder_path = Consts.trascription_raw_folder
         
         pattern = r"\d+-\d+\.csv"  # 「数字-数字.csv」のパターン
 
