@@ -7,10 +7,11 @@ from datetime import datetime
 import os
 from .. import Consts
 
-'''
-list_links.csvからスクレイピングするべき動画のリンクの一覧video_links.csvを作成する。
-'''
 class VideoLinkScraper:
+    '''
+    list_links.csvからスクレイピングするべき動画のリンクの一覧video_links.csvを作成する。
+    '''
+
     def __init__(self):
         self.niconico_client = NicoNico()
     
@@ -20,19 +21,21 @@ class VideoLinkScraper:
         df_video_links = self.get_videos_from_links(df_list_links, df_video_links)
         self.save_video_links(df_video_links)
     
-    '''list_links.csvからプレイリストのリンクを取得する。'''
     def get_lists(self):
+        '''list_links.csvからプレイリストのリンクを取得する。'''
         return pd.read_csv(Consts.list_links_file)
     
-    '''現時点での取得済みリンクのデータフレームを取得する。なければ空'''
     def get_current_videos(self):
+        '''現時点での取得済みリンクのデータフレームを取得する。なければ空'''
         if os.path.isfile(Consts.video_links_file):
             return pd.read_csv(Consts.video_links_file, index_col=0)
         else:
             return pd.DataFrame(columns=['date', 'link', 'title', "length", "transcribed"])
     
-    '''プレイリストのリンクから動画のリンクを取得する。'''
+    
     def get_videos_from_links(self, df_list_links, df_video_links):
+        '''プレイリストのリンクから動画のリンクを取得する。'''
+        
         current_links = set(df_video_links["link"])
         
         #Youtubeを処理
@@ -92,11 +95,11 @@ class VideoLinkScraper:
 
         return video_links
     
-    '''
-    概要欄から日付を取得する。
-    「MMMM/MM/DD」の文字列形式で返す
-    '''
     def get_date(self, title, description, publish_date):
+        '''
+        概要欄から日付を取得する。
+        「MMMM/MM/DD」の文字列形式で返す
+        '''
         #複数の正規表現で日付を抽出
         for re_pattern, datetime_pattern in [(r"\b(\d{4})/(\d{1,2})/(\d{1,2})\b", "%Y/%m/%d"), (r"\b(\d{4})年(\d{1,2})月(\d{1,2})日\b", "%Y年%m月%d日"), (r"\b\d{8}\b", "%Y%m%d")]:        
             #タイトルについて
