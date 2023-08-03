@@ -3,10 +3,11 @@ import os
 import re
 from .. import Consts
 
-'''
-生成された書き起こし進捗をvideo_links.csvに反映する
-'''
 class TranscriptionIntegrator:
+    '''
+    生成された書き起こし進捗をvideo_links.csvに反映する
+    '''
+
     def run(self):
         df_video_links = pd.read_csv(Consts.video_links_file, index_col=0)
         
@@ -21,10 +22,10 @@ class TranscriptionIntegrator:
                 
         df_video_links.to_csv(Consts.video_links_file)
 
-    '''
-    (書き起こされたファイルのインデックス, モデル番号)のリストを返す
-    '''    
     def get_transcribed(self):
+        '''
+        (書き起こされたファイルのインデックス, モデル番号)のリストを返す
+        '''    
         file_names = []
         folder_path = Consts.trascription_raw_folder
         
