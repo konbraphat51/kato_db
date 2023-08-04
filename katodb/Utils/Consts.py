@@ -9,8 +9,8 @@ class Consts:
     nico_pass = "Scraping/nico_pass.txt"
     
     #多分編集しない
-    list_links_file = "Data/list_links.csv",
-    video_links_file = "Data/video_links.csv",
-    trascription_raw_folder = "Data/Transcription_raw",
+    list_links_file = "Data/list_links.csv"
+    video_links_file = "Data/video_links.csv"
+    trascription_raw_folder = "Data/Transcription_raw"
     keywords_folder = "Data/Keywords"
     transcription_tokenized_folder = "Data/Transcription_tokenized"
