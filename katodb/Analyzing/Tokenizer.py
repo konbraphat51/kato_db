@@ -2,17 +2,14 @@ import MeCab
 import pandas as pd
 import os
 import re
-if __name__ == "__main__":
-    from katodb import Consts, Utils
-else:
-    from ..Utils import Consts, Utils
+from katodb import Consts, Utils
 from joblib import Parallel, delayed
-
 
 class Tokenizer:
     '''
     書き起こしデータをTFIDFで解析し、キーワードを抽出し、そのキーワードにスコア付けを行うクラス
     '''
+    
     def run(self):
         filenames = self.get_files()
         Parallel(n_jobs=-1, verbose=10)([delayed(self.process)(filename) for filename in filenames])

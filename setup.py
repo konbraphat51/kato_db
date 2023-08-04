@@ -8,6 +8,7 @@ setup(
         "pandas",
         "niconico.py",
         "tqdm",
-        "pytube"
+        "pytube",
+        "mzh mecab-python3",
     ]
 )
