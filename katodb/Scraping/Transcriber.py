@@ -8,11 +8,7 @@ import concurrent.futures as cf
 import os
 from tqdm import tqdm
 import gc
-
-if __name__ == "__main__":
-    from katodb import Consts, Utils
-else:
-    from ..Utils import Consts, Utils
+from katodb import Consts, Utils
 
 class Transcriber:
     '''
@@ -49,8 +45,8 @@ class Transcriber:
         elif mode == 1:
             index_target = self.get_improvables()
 
-        #with cf.ThreadPoolExecutor(max_workers=2) as executor:
         with cf.ProcessPoolExecutor(max_workers=2) as executor:
+        #with cf.ThreadPoolExecutor(max_workers=4) as executor:
             futures = []
             for index in index_target:
                 row = self.df_videos.iloc[index]
@@ -78,10 +74,13 @@ class Transcriber:
         '''
         書き起こしを行う。書き起こしファイルの保存、video_links.csvの更新も行われる
         '''
+        
+        gc.collect()
+        
         Utils.time_print("start: " + str(index))
 
         #動画をダウンロード
-        audio_file_name = str(index) + ".mp4"
+        audio_file_name = "./" + str(index) + ".mp4"
         self.download_video(link, audio_file_name)
 
         Utils.time_print("downloaded: " + str(index))
@@ -104,8 +103,6 @@ class Transcriber:
         df_transcription.to_csv(transcription_file_name, index = False)
 
         Utils.time_print("transcribed: " + str(index))
-
-        gc.collect()
         return index
 
     def download_video(self, link, file_name):
@@ -118,3 +115,7 @@ class Transcriber:
             client.login(client, email, password)
             with client.video.get_video(link) as video:
                 video.download(file_name)
+                
+if __name__ == "__main__":
+    transcriber = Transcriber()
+    transcriber.run(mode=0)
