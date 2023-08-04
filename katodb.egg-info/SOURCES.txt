@@ -12,7 +12,6 @@ katodb/Scraping/Transcriber.py
 katodb/Scraping/TranscriptionIntegrator.py
 katodb/Scraping/VideoLinkScraper.py
 katodb/Scraping/__init__.py
-katodb/Scraping/a.py
 katodb/Utils/Consts.py
 katodb/Utils/Utils.py
 katodb/Utils/__init__.py

@@ -4,3 +4,6 @@ nico_pass.txt
 test.ipynb
 test.py
 __pycache__
+__pycache__/*
+katodb.egg-info
+katodb.egg-info/*

@@ -10,6 +10,8 @@ import os
 from tqdm import tqdm
 import gc
 from katodb import Consts, Utils
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 class Transcriber:
     '''
@@ -114,9 +116,8 @@ class Transcriber:
             YouTube(link).streams.filter(only_audio=True).first().download(filename=file_name)
         elif "nicovideo" in link:
             client = NicoNico()
-            with open(Consts.nico_pass, "r") as f:
-                email, password = f.read().split()
-            client.login(client, email, password)
+            email, password = Consts.nico_account()
+            client.login(email, password)
             with client.video.get_video(link) as video:
                 video.download(file_name)
                 
