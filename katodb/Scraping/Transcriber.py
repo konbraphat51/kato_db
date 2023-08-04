@@ -5,7 +5,6 @@ from niconico import NicoNico
 import pandas as pd
 from random import shuffle, randint
 import concurrent.futures as cf
-from joblib import Parallel, delayed, parallel_backend
 import os
 from tqdm import tqdm
 import gc
@@ -48,18 +47,15 @@ class Transcriber:
         elif mode == 1:
             index_target = self.get_improvables()
 
-        # #with cf.ProcessPoolExecutor(max_workers=2) as executor:
-        # with cf.ThreadPoolExecutor(max_workers=2) as executor:
-        #     futures = []
-        #     for index in index_target:
-        #         row = self.df_videos.iloc[index]
-        #         futures.append(executor.submit(self.transcribe, index, row["link"], self.model))
+        #平行ではなく並列処理を試したが、faster_whisperのpickleができなく断念
+        with cf.ThreadPoolExecutor(max_workers=2) as executor:
+            futures = []
+            for index in index_target:
+                row = self.df_videos.iloc[index]
+                futures.append(executor.submit(self.transcribe, index, row["link"], self.model))
 
-        #     _ = cf.as_completed(futures)
-        
-        with parallel_backend("threading"):
-            Parallel(n_jobs=2, verbose=10)([delayed(self.transcribe)(index, row["link"], self.model) for index, row in self.df_videos.iloc[index_target].iterrows()])
-                
+            _ = cf.as_completed(futures)
+                        
     def get_untranscribeds(self):
         '''
         未書き起こしの動画のインデックス一覧を取得。一覧はシャッフルされている
