@@ -58,7 +58,7 @@ class Transcriber:
         #     _ = cf.as_completed(futures)
         
         with parallel_backend("threading"):
-            Parallel(n_jobs=1, verbose=10)([delayed(self.transcribe)(index, row["link"], self.model) for index, row in self.df_videos.iloc[index_target].iterrows()])
+            Parallel(n_jobs=2, verbose=10)([delayed(self.transcribe)(index, row["link"], self.model) for index, row in self.df_videos.iloc[index_target].iterrows()])
                 
     def get_untranscribeds(self):
         '''
@@ -86,7 +86,7 @@ class Transcriber:
         Utils.time_print("start: " + str(index))
 
         #動画をダウンロード
-        audio_file_name = "./" + str(index) + ".mp4"
+        audio_file_name = Consts.scraping_cache_folder + "/" + str(index) + ".mp4"
         self.download_video(link, audio_file_name)
 
         Utils.time_print("downloaded: " + str(index))

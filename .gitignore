@@ -7,3 +7,4 @@ __pycache__
 __pycache__/*
 katodb.egg-info
 katodb.egg-info/*
+katodb/Scraping/cache/*
