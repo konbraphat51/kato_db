@@ -1,0 +1,4 @@
+pandas
+niconico.py
+tqdm
+pytube
