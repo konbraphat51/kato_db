@@ -5,6 +5,7 @@ from niconico import NicoNico
 import pandas as pd
 from random import shuffle, randint
 import concurrent.futures as cf
+from joblib import Parallel, delayed, parallel_backend
 import os
 from tqdm import tqdm
 import gc
@@ -45,14 +46,17 @@ class Transcriber:
         elif mode == 1:
             index_target = self.get_improvables()
 
-        with cf.ProcessPoolExecutor(max_workers=2) as executor:
-        #with cf.ThreadPoolExecutor(max_workers=4) as executor:
-            futures = []
-            for index in index_target:
-                row = self.df_videos.iloc[index]
-                futures.append(executor.submit(self.transcribe, index, row["link"], self.model))
+        # #with cf.ProcessPoolExecutor(max_workers=2) as executor:
+        # with cf.ThreadPoolExecutor(max_workers=2) as executor:
+        #     futures = []
+        #     for index in index_target:
+        #         row = self.df_videos.iloc[index]
+        #         futures.append(executor.submit(self.transcribe, index, row["link"], self.model))
 
-            _ = cf.as_completed(futures)
+        #     _ = cf.as_completed(futures)
+        
+        with parallel_backend("threading"):
+            Parallel(n_jobs=1, verbose=10)([delayed(self.transcribe)(index, row["link"], self.model) for index, row in self.df_videos.iloc[index_target].iterrows()])
                 
     def get_untranscribeds(self):
         '''
