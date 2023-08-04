@@ -6,7 +6,7 @@ class Consts:
     
     #要編集（ご自分の環境に合わせて）
     mecab_params = '-u "C:/Program Files/MeCab/dic/NEologd.dic"'
-    nico_pass = "Scraping/nico_pass.txt"
+    nico_pass = "katodb/Scraping/nico_pass.txt"
     
     #多分編集しない
     list_links_file = "Data/list_links.csv"
