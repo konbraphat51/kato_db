@@ -5,10 +5,7 @@ from joblib import Parallel, delayed
 import re
 from datetime import datetime
 import os
-if __name__ == "__main__":
-    from katodb import Consts, Utils
-else:
-    from ..Utils import Consts, Utils
+from katodb import Consts, Utils
 
 
 class VideoLinkScraper:
