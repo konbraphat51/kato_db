@@ -1,0 +1,1 @@
+from .rake_ja import JapaneseRake, Tokenizer
