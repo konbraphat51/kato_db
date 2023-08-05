@@ -4,6 +4,7 @@ import os
 import re
 from katodb import Consts, Utils
 from joblib import Parallel, delayed
+import gc
 
 class Tokenizer:
     '''
@@ -12,7 +13,7 @@ class Tokenizer:
     
     def run(self):
         filenames = self.get_files()
-        Parallel(n_jobs=-1, verbose=10)([delayed(self.process)(filename) for filename in filenames])
+        Parallel(n_jobs=-4, verbose=10)([delayed(self.process)(filename) for filename in filenames])
     
     def get_files(self):
         '''
@@ -31,68 +32,71 @@ class Tokenizer:
         '''
         ファイル名から形態素解析を行い、保存する。（並列処理用）
         '''
-        title, text = self.get_file_info(filename)
-        tokens = self.tokenize(text)
-        self.save_tokenized(title, tokens)
+        gc.collect()
+        
+        title, segments = self.get_file_info(filename)
+        self.tokenize(segments, Consts.transcription_tokenized_folder + "/" + title + ".csv")
     
     def get_file_info(self, filename):
         '''
-        ファイル名から(タイトル, 書き起こしテキストを1文字列に集約)を取得
+        ファイル名から(タイトル, セグメントリスト)を取得
         '''
     
         #インデックスを取得
-        title = filename.split(".")[0]
+        title = filename.split("/")[-1].split(".")[0]
             
         #セグメントをスペース区切りで結合
         df_segments = pd.read_csv(filename)
-        texts_this = df_segments["text"]
-        text = ".".join(texts_this)
+        segments = list(df_segments["text"])
         
-        return title, text
+        return title, segments
     
-    def tokenize(self, text):
+    def tokenize(self, segments, filename):
         '''
-        書き起こしデータを形態素解析
-        [(原形, 品詞)]を返す
+        書き起こしデータを形態素解析。結果は`filename`に保存される。
         '''
+        
+        #本関数の返り値にまとめて形態素情報を返そうとすると、メモリサイズが膨大になるので、逐次ファイルに保存する必要がある。
+        
+        #ファイルの用意
+        with open(filename, "w", encoding="utf-8") as f:
+            pass
         
         tagger = MeCab.Tagger(Consts.mecab_params)
-        nodes = tagger.parseToNode(text)
+        first = True
+        for segment in segments:
+            #セグメント間には「*, BOS/EOS」が挟まれるので、こちらから区切りを入れる必要はない
+                        
+            nodes = tagger.parseToNode(segment)
+            
+            while nodes:
+                sp = nodes.feature.split(",")
+                
+                #品詞
+                pos = sp[0]
+                
+                #書字形基本形
+                if len(sp) > 10:
+                    original = sp[10]
+                else:
+                    #原形がない場合は表層形を代わりに使う
+                    original = nodes.surface
+            
+                #記録
+                self.write_token(original, pos, filename)
+                
+                #これがないと無限ループ
+                nodes = nodes.next
         
-        tokens = []
-        
-        while nodes:
-            sp = nodes.feature.split(",")
-            
-            #品詞
-            pos = sp[0]
-            
-            #原形
-            if len(sp) > 6:
-                original = sp[6]
-            else:
-                #原形がない場合は表層形を代わりに使う
-                original = nodes.surface
-        
-            token = (original, pos)
-            
-            tokens.append(token)
-            
-        return tokens
-    
-    def save_tokenized(self, title, tokens):
+    def write_token(self, original, pos, filename):
         '''
-        分解されたデータを保存する
+        `filename`に形態素情報1つ分を追加で書き込む
         '''
-    
-        filename = Consts.transcription_tokenized_folder + "/" + title + ".csv"
         
-        df = pd.DataFrame(tokens, columns=["original", "pos"])
-        df.to_csv(filename)
-        
+        with open(filename, "a", encoding="utf-8") as f:
+            f.write(original + "," + pos + "\n")
         
 if __name__ == "__main__":
-
     breaker = Tokenizer()
-    breaker.get_texts()
-        
+    breaker.run()
+    #breaker.process("Data/Transcription_raw/15-4.csv")    

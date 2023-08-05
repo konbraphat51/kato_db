@@ -5,7 +5,10 @@ class Consts:
     '''
     
     #要編集（ご自分の環境に合わせて）
-    mecab_params = '-u "C:/Program Files/MeCab/dic/NEologd.dic"'
+    ##-r (mecabrcのパス) -u (辞書のパス)を指定
+    mecab_params = '-r "C:/Program Files/MeCab/etc/mecabrc" -u "C:/Program Files/MeCab/dic/unidic_kato.dic"'
+    
+    ##ニコ動のアカウント情報
     nico_pass = "katodb/Utils/nico_pass.txt"
     
     #多分編集しない
