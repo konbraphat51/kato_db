@@ -1,10 +1,7 @@
 import pandas as pd
 import os
 import re
-if __name__ == "__main__":
-    from katodb import Consts, Utils
-else:
-    from ..Utils import Consts, Utils
+from katodb import Consts, Utils
 
 
 class TranscriptionIntegrator:

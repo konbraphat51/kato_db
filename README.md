@@ -2,6 +2,15 @@
 加藤純一の雑談データセットを作成するプログラムです。  
 データセット自体は[kato_db_dataset](https://github.com/konbraphat51/kato_db_dataset)レポジトリに集約させています。
 
+## 環境導入
+このパッケージをcloneし、ここへのパスを通します。
+```
+git clone https://github.com/konbraphat51/kato_db
+cd kato_db
+conda develop .
+```
+これに加え、各部門に必要な環境構築があります。各ディレクトリのREADMEに記載しています。
+
 ## ファイル形式  
 
 * list_links.csv  
