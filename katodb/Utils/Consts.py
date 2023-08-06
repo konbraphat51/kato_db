@@ -17,6 +17,7 @@ class Consts:
     trascription_raw_folder = "Data/Transcription_raw"
     keywords_folder = "Data/Keywords"
     transcription_tokenized_folder = "Data/Transcription_tokenized"
+    transcription_index_folder = "Data/Transcription_index"
     scraping_cache_folder = "katodb/Scraping/cache"
     
     def nico_account():
