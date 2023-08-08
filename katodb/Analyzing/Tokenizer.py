@@ -19,7 +19,7 @@ class Tokenizer:
         '''
         書き起こしデータのファイル名取得
         '''
-        folder = Consts.trascription_raw_folder
+        folder = Consts.transcription_raw_folder
         filenames = os.listdir(folder)
         
         #「数字-数字.csv」のパターンを抽出

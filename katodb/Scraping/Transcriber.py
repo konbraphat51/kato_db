@@ -100,7 +100,7 @@ class Transcriber:
         os.remove(audio_file_name)
 
         #書き起こしファイルの保存
-        transcription_file_name = Consts.trascription_raw_folder + "/" + str(index) + "-" + str(model) + ".csv"
+        transcription_file_name = Consts.transcription_raw_folder + "/" + str(index) + "-" + str(model) + ".csv"
         df_transcription = pd.DataFrame(data=transcription, columns=['start', 'end', 'text'])
         df_transcription.to_csv(transcription_file_name, index = False)
 

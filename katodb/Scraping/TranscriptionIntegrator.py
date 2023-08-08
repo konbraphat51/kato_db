@@ -28,7 +28,7 @@ class TranscriptionIntegrator:
         (書き起こされたファイルのインデックス, モデル番号)のリストを返す
         '''    
         file_names = []
-        folder_path = Consts.trascription_raw_folder
+        folder_path = Consts.transcription_raw_folder
         
         pattern = r"\d+-\d+\.csv"  # 「数字-数字.csv」のパターン
 
