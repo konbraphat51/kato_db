@@ -1,0 +1,39 @@
+@startuml
+
+title システムの流れ
+
+:配信アーカイブプレイリスト表|
+
+rectangle "スクレイピング部" {
+    :VideoLinkScraper: 配信アーカイブプレイリスト表から動画リンクをスクレイピング（インターネット上から取得）;
+    note right
+        「動画リンク集」生成
+    end note    
+    :Transcriber: 動画リンクを音声テキストに書き起こす;
+    :TranscriptionIntegrator: 書き起こしデータを確認し、書き起こし進捗を「動画リンク集」に記録;
+}
+
+->
+
+:書き起こしデータ|
+
+->
+
+rectangle "分析部" {
+    :Tokenizer: 書き起こしデータをトークンに分解し「品詞分解済みデータ」を生成;
+    note right
+        「品詞分解済みデータ」
+    end note
+
+    :Indexer: 品詞分解済みデータを処理し「検索高速化データ」を生成;
+    note right
+        「検索高速化データ」
+    end note
+    
+    :KeywordSetter: 検索高速化データからキーワードを抽出し「配信キーワード」を生成;
+    note right
+        「配信キーワード」
+    end note
+}
+
+@enduml
