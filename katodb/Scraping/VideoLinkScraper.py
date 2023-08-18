@@ -48,7 +48,7 @@ class VideoLinkScraper:
                 video_links.append(content)
                     
         df_temp = pd.DataFrame(video_links, columns=['date', 'link', 'title', "length", "transcribed"])
-        df_video_links = pd.concat([df_video_links, df_temp])        
+        df_video_links = pd.concat([df_video_links, df_temp], ignore_index=True)        
         
         #ニコニコ動画を処理
         output = Parallel(n_jobs=-1, verbose=10)([delayed(self.get_videos_from_link_niconico)(row, current_links) for _, row in df_list_links[df_list_links["link"].str.contains("nicovideo")].iterrows()])
@@ -59,7 +59,7 @@ class VideoLinkScraper:
                 video_links.append(content)
                 
         df_temp = pd.DataFrame(video_links, columns=['date', 'link', 'title', "length", "transcribed"])
-        df_video_links = pd.concat([df_video_links, df_temp])
+        df_video_links = pd.concat([df_video_links, df_temp], ignore_index=True)
 
         return df_video_links
     

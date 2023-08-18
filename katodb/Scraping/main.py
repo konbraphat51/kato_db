@@ -35,3 +35,6 @@ class Scraper:
             
         else:
             print("GPU環境がないため、打ち止めます。Transcriber_colab.ipynbを実行してください。")
+            
+if __name__ == "__main__":
+    Scraper.run(has_gpu = True)
