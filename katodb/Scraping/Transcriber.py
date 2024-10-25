@@ -1,6 +1,6 @@
 #import whisper
 from faster_whisper import WhisperModel
-from pytube import YouTube, Channel
+from pytubefix import YouTube, Channel
 from niconico import NicoNico
 import pandas as pd
 from random import shuffle, randint
@@ -24,10 +24,11 @@ class Transcriber:
         1: "base",
         2: "small",
         3: "medium",
-        4: "large-v2"
+        4: "large-v2",
+        5: "large-v3",
     }
 
-    def __init__(self, model = 4):
+    def __init__(self, model = 5):
         self.df_videos = pd.read_csv(Consts.video_links_file)
         self.model = model 
         
@@ -109,7 +110,7 @@ class Transcriber:
 
     def download_video(self, link, file_name):
         if "youtube" in link:
-            YouTube(link).streams.filter(only_audio=True).first().download(filename=file_name)
+            YouTube(link).streams.filter(only_audio=True).first().download(filename=file_name, file_system="APFS")
         elif "nicovideo" in link:
             client = NicoNico()
             email, password = Consts.nico_account()

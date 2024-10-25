@@ -1,4 +1,4 @@
-from pytube import Playlist, YouTube
+from pytubefix import Playlist, YouTube
 from niconico import NicoNico
 import pandas as pd
 from joblib import Parallel, delayed

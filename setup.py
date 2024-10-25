@@ -8,5 +8,5 @@ setup(
     version="0.0.1",
     packages=find_packages(),
     install_requires=_requires_from_file("requirements.txt"),
-    python_requires="==3.9",
+    python_requires="<3.10",
 )
